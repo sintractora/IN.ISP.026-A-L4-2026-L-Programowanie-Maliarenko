@@ -1,0 +1,83 @@
+
+body {
+    font-family: calibri, sans-serif;
+    color: darkblue; 
+    font-size: 18px; 
+}
+
+
+
+
+.tytul-strony {
+    text-align: center; 
+    font-size: 26px; 
+    font-weight: bold; 
+    border-top: 2px solid black; 
+    border-bottom: 2px solid black;
+    padding: 10px 0; 
+
+
+}
+.ramka {
+    width: 600px; 
+    height: 200px; 
+    border: 2px dashed darkblue; 
+    overflow: auto;
+    text-align: justify; 
+    margin-left: auto;
+    margin-right: auto; 
+    padding: 10px; 
+    background-color: rgba(173, 216, 230, 0.616); 
+
+}
+.fsd {
+    text-align: center;
+    font-weight: bold;
+}
+a.moj-link, a.moj-link:hover, a.moj-link:visited, a.moj-link:active {
+    color: green; 
+    text-decoration: underline; 
+}
+
+.tabelka {
+    border-collapse: collapse; 
+  margin-left: auto;
+    margin-right: auto; 
+    margin-top: 20px;
+    margin-bottom: 20px;
+    table-layout: fixed; 
+
+    width: 500px; 
+
+
+}
+
+.tabelka td {
+    border: 1px solid gray; 
+    padding: 10px; 
+  text-align: center;
+    width: 125px; 
+
+
+}
+
+.szary-rzad {
+    background-color: lightsteelblue; 
+}
+
+.czerwony {
+    color: red;
+}
+
+.rozowy {
+    color: lightcoral; 
+}
+
+.pomaranczowy {
+    color: orange;
+}
+
+
+ul {
+    list-style-type: circle; 
+}
