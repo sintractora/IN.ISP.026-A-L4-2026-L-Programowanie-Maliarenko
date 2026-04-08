@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+
+   <script>
+
+
+async function pobierz_czas() {
+    const res = await fetch('https://timeapi.io/api/Time/current/zone?timeZone=Europe/Warsaw');
+    const data = await res.json();
+    document.write("Aktualny czas w Polsce: " + data.time);
+}
+
+pobierz_czas();
+
+
+</script>
+
+</body>
+</html>

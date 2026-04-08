@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+#reset {display:inline-block;}
+#stop {display:none;}
+</style>
+</head>
+<body>
+<h1 id="czas">
+<span id="godziny">00</span>:<span id="minuty">00</span>:<span id="sekundy">00</span>
+</h1>
+<button id="start">START</button>
+<button id="zapisz">ZAPISZ</button>
+<button id="stop">STOP</button>
+<button id="reset">RESET</button>
+<p id="stan_stopera"></p>
+<ul id="zapisane_czasy">
+</ul>
+
+<script>
+    let sekundy = 0;
+    let minuty = 0;
+    let godziny = 0;
+    let timer;
+    let dziala = false;
+
+
+    function format(czas) {
+        if(czas < 10) return "0" + czas;
+        return czas;
+       }
+    function odswiezCzas() {
+        document.getElementById("godziny").innerText = format(godziny);
+        document.getElementById("minuty").innerText = format(minuty);
+        document.getElementById("sekundy").innerText = format(sekundy);
+ }
+document.getElementById("start").onclick = function() {
+        if(!dziala) {
+            dziala = true;
+            document.getElementById("start").style.display = "none";
+            document.getElementById("stop").style.display = "inline-block";
+            document.getElementById("reset").style.display = "none";
+            document.getElementById("stan_stopera").innerText = "Odliczanie...";
+
+            timer = setInterval(function() {
+                sekundy++;
+                if(sekundy == 60) {
+                    sekundy = 0;
+                    minuty++;
+                }
+                if(minuty == 60) {
+                    minuty = 0;
+                    godziny++;
+                }
+                odswiezCzas();
+            }, 1000);
+        }
+}
+
+document.getElementById("stop").onclick = function() {
+        clearInterval(timer);
+        dziala = false;
+        document.getElementById("start").style.display = "inline-block";
+        document.getElementById("stop").style.display = "none";
+        document.getElementById("reset").style.display = "inline-block";
+        document.getElementById("stan_stopera").innerText = "Wstrzymano";
+    }
+
+    document.getElementById("zapisz").onclick = function() {
+        let lista = document.getElementById("zapisane_czasy");
+        let li = document.createElement("li");
+        let numer = lista.children.length + 1;
+        li.innerText = numer + ". " + format(godziny) + ":" + format(minuty) + ":" + format(sekundy);
+        lista.appendChild(li);
+    }
+
+document.getElementById("reset").onclick = function() {
+        clearInterval(timer);
+        dziala = false;
+        sekundy = 0;
+        minuty = 0;
+        godziny = 0;
+        odswiezCzas();
+        document.getElementById("zapisane_czasy").innerHTML = "";
+        document.getElementById("stan_stopera").innerText = "";
+    }
+</script>
+</body>
+</html>
