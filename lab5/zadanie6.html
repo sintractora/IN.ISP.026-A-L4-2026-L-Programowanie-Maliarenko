@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+    <h1>Zadanie 6 </h1>
+    <script>
+
+        function choinka(n) {
+            for(let i = 1; i <= n; i++) {
+                let spacje = "";
+                
+                for(let j = 0; j < n-i; j++) { 
+                    spacje += " "; 
+                }
+                
+                let gwiazdki = "";
+                for(let k = 0; k < (2*i-1); k++) { 
+                    gwiazdki += "*"; 
+                }
+                
+                console.log(spacje + gwiazdki);
+            }
+ }
+     
+    choinka(5);
+
+    </script>
+</body>
+</html>
