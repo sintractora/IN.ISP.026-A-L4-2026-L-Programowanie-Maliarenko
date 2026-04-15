@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Zadanie 2 - Rejestracja</title>
+    <style>
+        body { font-family: sans-serif; }
+        .field-group { margin-bottom: 12px; }
+        #message { margin-top: 15px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    
+    <h2>Formularz Rejestracji</h2>
+<form id="regForm">
+        <div class="field-group">
+            <label>Nazwa użytkownika: <input type="text" id="username"></label>
+        </div>
+        <div class="field-group">
+            <label>Adres e-mail: <input type="text" id="email"></label>
+        </div>
+        <div class="field-group">
+            <label>Hasło: <input type="password" id="pass1"></label>
+        </div>
+        <div class="field-group">
+            <label>Powtórz hasło: <input type="password" id="pass2"></label>
+    </div>
+        <div class="field-group">
+            <label>Data urodzenia: <input type="date" id="dob"></label>
+        </div>
+
+
+        <div class="field-group">
+            <label>Płeć: 
+                <select id="gender">
+                    <option value="">Wybierz...</option>
+                    <option value="Mężczyzna">Mężczyzna</option>
+                    <option value="Kobieta">Kobieta</option>
+                    <option value="Nie chcę podawać">Nie chcę podawać</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="field-group">
+            <label><input type="checkbox" id="tos"> Akceptuję regulamin</label>
+        </div>
+        <div class="field-group">
+            Wybierz wersję:<br>
+            <label><input type="radio" name="version" value="Wersja darmowa"> Wersja darmowa</label><br>
+            <label><input type="radio" name="version" value="Wersja standardowa"> Wersja standardowa</label><br>
+            <label><input type="radio" name="version" value="Wersja premium"> Wersja premium</label>
+        </div>
+        
+        <button type="submit">Zarejestruj się</button>
+        <button type="reset">Wyczyść</button>
+    </form>
+
+    <div id="message"></div>
+
+    <script>
+        document.getElementById('regForm').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            let msgBox = document.getElementById('message');
+            msgBox.innerHTML = ""; 
+            try {
+    
+                let user = document.getElementById('username').value;
+                let email = document.getElementById('email').value;
+                let pass1 = document.getElementById('pass1').value;
+                let pass2 = document.getElementById('pass2').value;
+              let dob = document.getElementById('dob').value;
+                let gender = document.getElementById('gender').value;
+                let tos = document.getElementById('tos').checked;
+                
+                let versionElements = document.getElementsByName('version');
+                let version = "";
+                for(let i = 0; i < versionElements.length; i++){
+                    if(versionElements[i].checked) version = versionElements[i].value;
+                }
+                if(!user || !email || !pass1 || !pass2 || !dob || !gender || !version) {
+                    throw "Wszystkie pola tekstowe, data, płeć i wersja muszą być wypełnione.";
+                }
+                if(!tos) throw "Musisz zaakceptować regulamin.";
+
+                let userRegex = /^[a-zA-Z0-9]+$/;
+                if(!userRegex.test(user)) throw "Nazwa użytkownika może składać się tylko z liter i cyfr.";
+
+                if(pass1.length < 8) throw "Hasło musi mieć co najmniej 8 znaków.";
+                if(!/[0-9]/.test(pass1)) throw "Hasło musi zawierać co najmniej jedną cyfrę.";
+                if(pass1 !== pass2) throw "Hasła nie są identyczne.";
+
+                let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if(!emailRegex.test(email)) throw "Adres e-mail jest nieprawidłowy.";
+
+                let birthDate = new Date(dob);
+                let today = new Date();
+                let age = today.getFullYear() - birthDate.getFullYear();
+                let monthDiff = today.getMonth() - birthDate.getMonth();
+                
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+                if(age < 18) throw "Musisz mieć ukończone 18 lat, aby zarejestrować.";
+                let day = String(birthDate.getDate()).padStart(2, '0');
+               let month = String(birthDate.getMonth() + 1).padStart(2, '0');
+                let year = birthDate.getFullYear();
+                let formattedDate = `${day}.${month}.${year}`;
+
+                let hiddenPass = "*".repeat(pass1.length);
+
+                msgBox.innerHTML = `
+                    <span style="color: green;">Formularz wypełniony poprawnie</span><br><br>
+                    Nazwa użytkownika: ${user}<br>
+                    Hasło: ${hiddenPass}<br>
+                    Adres e-mail: ${email}<br>
+                    Data urodzenia: ${formattedDate}<br>
+                    Płeć: ${gender}<br>
+                    Wybrana wersja: ${version}
+                `;
+                msgBox.style.color = "black";
+
+            } catch (err) {
+                msgBox.innerHTML = `Błąd walidacji: ${err}`;
+                msgBox.style.color = "red";
+            }
+        });
+    </script>
+    
+</body>
+</html>

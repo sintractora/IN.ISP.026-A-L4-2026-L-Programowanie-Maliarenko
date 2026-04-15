@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Zadanie 1 - Dzielenie</title>
+</head>
+<body>
+
+    <h2>Dzielenie liczb</h2>
+    <input type="text" id="liczba1" placeholder="Wpisz pierwszą liczbę"> /
+<input type="text" id="liczba2" placeholder="Wpisz drugą liczbę">
+    <button onclick="podzielLiczby()">Oblicz</button>
+    
+    <p id="wynik"></p>
+
+    <script>
+        function podzielLiczby() {
+            let pole1 = document.getElementById("liczba1").value;
+            let pole2 = document.getElementById("liczba2").value;
+            let komunikat = document.getElementById("wynik");
+            try {
+                
+                if (pole1 === "" || pole2 === "") {
+                    throw "Pole nie mogą być puste";
+                }
+                let num1 = parseFloat(pole1.replace(',', '.'));
+             let num2 = parseFloat(pole2.replace(',', '.'));
+
+                if (isNaN(num1) || isNaN(num2)) {
+                    throw "Dane muszą być liczbami";
+                }
+                if (num2 === 0) {
+                    throw "Nie można dzielić przez zero";
+                }
+
+                let wynikDzielenia = num1 / num2;
+            komunikat.innerHTML = "Wynik: " + wynikDzielenia;
+                komunikat.style.color = "green";
+
+            } catch (error) {
+                komunikat.innerHTML = "Błąd: " + error;
+                komunikat.style.color = "red";
+            }
+        }
+    </script>
+
+
+</body>
+</html>
