@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Zadania 2-8</title>
+</head>
+
+<body>
+
+    <h1>Zadania 2-8</h1>
+    <p>Wciśnij <strong>F12</strong> i przejdź do zakładki <strong>Console</strong></p>
+
+    <script>
+        class ComplexNumber {
+    constructor(real, imaginary) {
+        this.real = real;
+        this.imaginary = imaginary;
+    }
+
+    wypisz() {
+        let znak = this.imaginary < 0 ? "-" : "+";
+        return `${this.real} ${znak} ${Math.abs(this.imaginary)}i`;
+    }
+
+
+    module() {
+        return Math.sqrt(Math.pow(this.real, 2) + Math.pow(this.imaginary, 2));
+    }
+}
+const generujLiczbyZespolone = (n) => {
+    let tablica = [];
+    for (let i = 0; i < n; i++) {
+        let r = Math.floor(Math.random() * 21) - 10; 
+        let im = Math.floor(Math.random() * 21) - 10;
+        tablica.push(new ComplexNumber(r, im));
+    }
+    return tablica;
+    
+};
+
+const filtrujDodatnie = (tablica) => tablica.filter(l => l.real > 0 && l.imaginary > 0);
+const zamienCzesci = (tablica) => tablica.map(l => new ComplexNumber(l.imaginary, l.real));
+const sumaModulow = (tablica) => tablica.reduce((suma, l) => suma + l.module(), 0);
+
+const najmniejszyModul = (tablica) => tablica.reduce((min, l) => l.module() < min ? l.module() : min, tablica[0].module());
+const najwiekszyModulObiekt = (tablica) => tablica.reduce((max, l) => l.module() > max.module() ? l : max, tablica[0]);
+
+
+let mojeLiczby = generujLiczbyZespolone(5);
+
+console.log("Wygenerowane liczby:");
+mojeLiczby.forEach(l => console.log(l.wypisz()));
+
+console.log("\nZadanie 4:");
+filtrujDodatnie(mojeLiczby).forEach(l => console.log(l.wypisz()));
+
+console.log("\nZadanie 5:");
+zamienCzesci(mojeLiczby).forEach(l => console.log(l.wypisz()));
+
+console.log("\nZadanie 6:");
+console.log(sumaModulow(mojeLiczby));
+
+
+console.log("\nZadanie 7:");
+console.log(najmniejszyModul(mojeLiczby));
+
+console.log("\nZadanie 8:");
+console.log(najwiekszyModulObiekt(mojeLiczby).wypisz());
+
+
+    </script>
+</body>
+</html>

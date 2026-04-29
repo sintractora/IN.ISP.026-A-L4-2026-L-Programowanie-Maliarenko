@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Zadanie 1 - Obiekty i JSON</title>
+</head>
+<body>
+    <form id="formularz">
+        <input type="text" id="imie" placeholder="Imię" required><br><br>
+        <input type="text" id="nazwisko" placeholder="Nazwisko" required><br><br>
+        <input type="number" id="wiek" placeholder="Wiek" required><br><br>
+        <button type="submit">Wyślij</button>
+    </form>
+    
+    <p>Wynik JSON pojawi się poniżej (sprawdź też konsolę!):</p>
+    <div id="wynik-json"></div>
+
+    <script>
+        document.getElementById('formularz').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const imie = document.getElementById('imie').value;
+            const nazwisko = document.getElementById('nazwisko').value;
+            const wiek = document.getElementById('wiek').value;
+
+            const osoba = {
+                imie: imie,
+                nazwisko: nazwisko,
+                wiek: Number(wiek)
+            };
+
+            console.log(osoba);
+
+            console.log(osoba.imie);
+            console.log(osoba.nazwisko);
+            console.log(osoba.wiek);
+
+            const jsonOsoba = JSON.stringify(osoba);
+            console.log(jsonOsoba);
+            
+            document.getElementById('wynik-json').innerText = jsonOsoba;
+        });
+    </script>
+
+</body>
+</html>
