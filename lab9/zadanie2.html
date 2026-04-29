@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Zadanie 2</title>
+</head>
+<body>
+    
+    <h1>Clicker</h1>
+    <p>Punkty: <strong id="punkty">0</strong></p>
+    <button id="glownyPrzycisk" style="padding: 15px 30px; font-size: 18px;">KLIKNIJ</button>
+
+    <p>Moc kliknięcia: <span id="moc">1</span></p>
+
+    <p>Punkty na sekundę: <span id="pasywne">0</span></p>
+    <h3>Ulepszenia</h3>
+
+    <button id="kupMoc">Kup moc kliknięcia (Koszt: <span id="kosztMoc">10</span>)</button>
+    <br><br>
+
+    <button id="kupPasywne">Kup punkty na sekundę (Koszt: <span id="kosztPasywne">50</span>)
+    </button>
+
+    <br><br><br>
+    <button id="resetGry">Zresetuj zapis</button>
+
+    <script>
+        let punkty = 0;
+        let mocKlikniecia = 1;
+        let punktyNaSekunde = 0;
+        let kosztMocy = 10;
+        let kosztPasywnego = 50;
+
+        function aktualizujWidok() {
+            document.getElementById("punkty").innerText = Math.floor(punkty);
+            document.getElementById("moc").innerText = mocKlikniecia;
+            document.getElementById("pasywne").innerText = punktyNaSekunde;
+            document.getElementById("kosztMoc").innerText = kosztMocy;
+            document.getElementById("kosztPasywne").innerText = kosztPasywnego;
+
+        }
+
+        function zapiszGre() {
+            let stanGry = {
+                p: punkty,
+                m: mocKlikniecia,
+                ps: punktyNaSekunde,
+                km: kosztMocy,
+                kp: kosztPasywnego,
+                dataZapis: Date.now()
+            };
+            localStorage.setItem("prostyClicker", JSON.stringify(stanGry));
+
+        }
+        function wczytajGre() {
+            let zapisane = localStorage.getItem("prostyClicker");
+            if (zapisane) {
+                let stanGry = JSON.parse(zapisane);
+                punkty = stanGry.p;
+                mocKlikniecia = stanGry.m;
+                punktyNaSekunde = stanGry.ps;
+                kosztMocy = stanGry.km;
+                kosztPasywnego = stanGry.kp;
+
+                if (punktyNaSekunde > 0) {
+                    let roznicaCzasu = Date.now() - stanGry.dataZapis;
+                    let sekundyOffline = roznicaCzasu / 1000;
+                    let zarobek = sekundyOffline * punktyNaSekunde;
+                    
+                    punkty += zarobek;
+                    if (zarobek > 1) {
+                        alert("Zarobiłeś offline: " + Math.floor(zarobek) + " punktów.");
+                    }
+                }
+            }
+            aktualizujWidok();
+        }
+
+        document.getElementById("glownyPrzycisk").addEventListener("click", function() {
+            punkty += mocKlikniecia;
+            aktualizujWidok();
+            zapiszGre();
+        });
+        document.getElementById("kupMoc").addEventListener("click", function() {
+            if (punkty >= kosztMocy) {
+                punkty -= kosztMocy;
+                mocKlikniecia += 1;
+                kosztMocy = Math.floor(kosztMocy * 1.5);
+                aktualizujWidok();
+                zapiszGre();
+            }
+        });
+        document.getElementById("kupPasywne").addEventListener("click", function() {
+            if (punkty >= kosztPasywnego) {
+                punkty -= kosztPasywnego;
+                punktyNaSekunde += 1;
+                kosztPasywnego = Math.floor(kosztPasywnego * 1.5);
+                aktualizujWidok();
+                zapiszGre();
+            }
+        });
+
+        document.getElementById("resetGry").addEventListener("click", function() {
+            localStorage.removeItem("prostyClicker");
+            location.reload();
+        });
+
+        setInterval(function() {
+            if (punktyNaSekunde > 0) {
+                punkty += punktyNaSekunde;
+                aktualizujWidok();
+                zapiszGre();
+            }
+        }, 1000);
+
+        wczytajGre();
+
+    </script>
+</body>
+</html>
